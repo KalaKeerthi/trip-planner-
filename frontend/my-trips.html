@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Trips - Travel Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="assets/images/logo.jpeg" alt="Travel Planner Logo" class="nav-logo">
+      Travel Planner
+    </div>
+    <ul>
+      <li><a href="index.html">Introduction</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="auth.html">Login/Register</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="plan-trip.html">Plan Trip</a></li>
+      <li><a href="my-trips.html" class="active">My Trips</a></li>
+    </ul>
+  </nav>
+
+  <section class="my-trips-section">
+    <div class="section-header">
+      <h2>My Planned Trips</h2>
+      <a href="plan-trip.html" class="primary-btn">+ Plan New Trip</a>
+    </div>
+
+    <div id="trips-container" class="trips-container">
+      <div class="loading">Loading your trips...</div>
+    </div>
+
+    <div id="no-trips" class="no-trips" style="display: none;">
+      <div class="empty-state">
+        <h3>No trips planned yet</h3>
+        <p>Start planning your next adventure by creating a new trip!</p>
+        <a href="plan-trip.html" class="primary-btn">Plan Your First Trip</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trip Details Modal -->
+  <div id="trip-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Edit Trip Modal -->
+  <div id="edit-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Edit Trip</h3>
+      <form id="edit-trip-form">
+        <input type="hidden" id="edit-trip-id">
+        <div class="form-group">
+          <label for="edit-trip-name">Trip Name:</label>
+          <input type="text" id="edit-trip-name" required>
+        </div>
+        <div class="form-group">
+          <label for="edit-destination">Destination:</label>
+          <input type="text" id="edit-destination" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="edit-start-date">Start Date:</label>
+            <input type="date" id="edit-start-date" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-end-date">End Date:</label>
+            <input type="date" id="edit-end-date" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="edit-budget">Budget (USD):</label>
+          <input type="number" id="edit-budget" min="0">
+        </div>
+        <div class="form-group">
+          <label for="edit-notes">Notes:</label>
+          <textarea id="edit-notes" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="primary-btn">Update Trip</button>
+          <button type="button" class="secondary-btn" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Travel Planner. All rights reserved.</p>
+  </footer>
+
+  <script src="my-trips.js"></script>
+</body>
+</html>
+

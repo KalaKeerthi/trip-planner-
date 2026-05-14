@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Travel Planner</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="assets/images/logo.jpeg" alt="Travel Planner Logo" class="nav-logo">
+      Travel Planner
+    </div>
+    <ul>
+      <li><a href="index.html" class="active">Introduction</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="auth.html">Login/Register</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="plan-trip.html">Plan Trip</a></li>
+      <li><a href="my-trips.html">My Trips</a></li>
+    </ul>
+  </nav>
+  <header class="intro-header">
+    <div class="intro-content">
+      <h1>Welcome to Travel Planner!</h1>
+      <p>
+        Plan your perfect trip with ease! Our platform helps you discover top tourist attractions, get detailed addresses, and view everything on an interactive map.
+        <br>
+        <strong>Why Travel Planner?</strong>
+        <ul>
+          <li>Search any city for its best tourist spots</li>
+          <li>See all locations mapped visually</li>
+          <li>Find details and addresses for each place</li>
+          <li>Connect with trusted tourist guides (male/female)</li>
+          <li>Easy login/register for personalized experience</li>
+        </ul>
+        Whether you're traveling alone or with family, Travel Planner makes your journey smoother and more enjoyable!
+      </p>
+      <div class="intro-photos">
+        <img src="assets/images/intro1.webp" alt="Tourist Spot 1">
+        <img src="assets/images/intro2.jpeg" alt="Tourist Spot 2">
+        <img src="assets/images/intro3.jpeg" alt="Tourist Spot 3">
+      </div>
+    </div>
+  </header>
+  <section id="search-section">
+    <h2>Search Tourist Places</h2>
+    <input type="text" id="city-input" placeholder="Enter city (e.g. Paris)">
+    <button id="search-btn">Search</button>
+  </section>
+  <section id="places-section">
+    <h2>Tourist Places</h2>
+    <div id="places-list"></div>
+    <div id="map"></div>
+  </section>
+  <footer>
+    <p>&copy; 2025 Travel Planner. All rights reserved.</p>
+  </footer>
+  <!-- Leaflet must load before script.js (map uses global L). Wrong SRI on leaflet.js also blocks the script. -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="script.js"></script>
+</body>
+</html>

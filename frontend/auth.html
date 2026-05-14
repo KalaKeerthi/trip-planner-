@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login/Register - Travel Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="/assets/images/logo.jpeg" alt="Travel Planner Logo" class="nav-logo">
+      Travel Planner
+    </div>
+    <ul>
+      <li><a href="index.html">Introduction</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="auth.html" class="active">Login/Register</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="plan-trip.html">Plan Trip</a></li>
+      <li><a href="my-trips.html">My Trips</a></li>
+    </ul>
+  </nav>
+  <section class="auth-section">
+    <h2>Login / Register</h2>
+    <div class="auth-tabs">
+      <button type="button" id="login-tab" class="active" onclick="showAuthTab('login')">Login</button>
+      <button type="button" id="register-tab" onclick="showAuthTab('register')">Register</button>
+    </div>
+    <div id="login-form" class="auth-form">
+      <form id="loginForm">
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" required>
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" required>
+        <button type="submit">Login</button>
+        <div id="login-message" class="auth-message"></div>
+      </form>
+    </div>
+    <div id="register-form" class="auth-form" style="display:none;">
+      <form id="registerForm">
+        <label for="register-username">Username:</label>
+        <input type="text" id="register-username" required>
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email" required>
+        <label for="register-password">Password:</label>
+        <input type="password" id="register-password" required>
+        <button type="submit">Register</button>
+        <div id="register-message" class="auth-message"></div>
+      </form>
+    </div>
+  </section>
+  <script>
+    const API_BASE_URL = 'http://localhost:3000';
+
+    function showAuthTab(tab) {
+      document.getElementById('login-tab').classList.remove('active');
+      document.getElementById('register-tab').classList.remove('active');
+      document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+      document.getElementById('register-form').style.display = tab === 'register' ? 'block' : 'none';
+      document.getElementById(tab + '-tab').classList.add('active');
+      
+      // Clear messages when switching tabs
+      document.getElementById('login-message').textContent = '';
+      document.getElementById('register-message').textContent = '';
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      const messageDiv = document.getElementById('login-message');
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          messageDiv.textContent = 'Login successful! Redirecting...';
+          messageDiv.style.color = 'green';
+          // Store user info in localStorage
+          localStorage.setItem('currentUser', username);
+          // Redirect to main page after 1 second
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000);
+        } else {
+          messageDiv.textContent = data.message || 'Login failed';
+          messageDiv.style.color = 'red';
+        }
+      } catch (error) {
+        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.style.color = 'red';
+        console.error('Login error:', error);
+      }
+    }
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('register-username').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const messageDiv = document.getElementById('register-message');
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          messageDiv.textContent = 'Registration successful! You can now login.';
+          messageDiv.style.color = 'green';
+          // Clear the form
+          document.getElementById('registerForm').reset();
+        } else {
+          messageDiv.textContent = data.message || 'Registration failed';
+          messageDiv.style.color = 'red';
+        }
+      } catch (error) {
+        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.style.color = 'red';
+        console.error('Registration error:', error);
+      }
+    }
+
+    // Add event listeners when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+      document.getElementById('registerForm').addEventListener('submit', handleRegister);
+    });
+  </script>
+</body>
+</html>
