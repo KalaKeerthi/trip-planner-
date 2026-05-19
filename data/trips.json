@@ -1,0 +1,53 @@
+{
+  "nextId": 3,
+  "trips": [
+    {
+      "id": 1,
+      "userId": "kala Keerthi",
+      "tripName": "paris adventure",
+      "destination": "paris",
+      "startDate": "2026-05-26",
+      "endDate": "2026-06-21",
+      "places": [
+        {
+          "name": "effiel tower",
+          "address": "paris"
+        },
+        {
+          "name": "bridge",
+          "address": ""
+        }
+      ],
+      "budget": 200000,
+      "notes": "we want good transport facility to travel",
+      "createdAt": "2026-05-19T06:47:08.090Z",
+      "status": "planned"
+    },
+    {
+      "id": 2,
+      "userId": "jyoshna",
+      "tripName": "happy trip",
+      "destination": "hyderabad",
+      "startDate": "2026-05-19",
+      "endDate": "2026-06-19",
+      "places": [
+        {
+          "name": "charminar",
+          "address": ""
+        },
+        {
+          "name": "golkonda",
+          "address": ""
+        },
+        {
+          "name": "swarnagiri temple",
+          "address": ""
+        }
+      ],
+      "budget": 20000,
+      "notes": "we need special transport",
+      "createdAt": "2026-05-19T06:52:41.639Z",
+      "status": "planned"
+    }
+  ]
+}
