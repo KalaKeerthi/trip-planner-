@@ -1,5 +1,10 @@
 // Trip Planner JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+  if (!getCurrentUser()) {
+    alert('Please log in to plan and save a trip.');
+    window.location.href = 'auth.html';
+    return;
+  }
   // Set minimum date to today
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('start-date').min = today;
@@ -75,21 +80,16 @@ async function handleTripSubmission(event) {
     return;
   }
 
-  // For demo purposes, use a default user ID (in real app, get from authentication)
-  formData.userId = 'demo-user-123';
+  formData.userId = getCurrentUser();
 
   try {
-    // Save trip to backend
-    const response = await fetch('/trips/save', {
+    const { response, data: result } = await apiFetch('/trips/save', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
 
     if (response.ok) {
-      const result = await response.json();
       console.log('Trip saved:', result);
       
       // Show success message
@@ -109,12 +109,11 @@ async function handleTripSubmission(event) {
         </div>
       `;
     } else {
-      const error = await response.json();
-      alert('Failed to save trip: ' + error.error);
+      alert('Failed to save trip: ' + (result?.error || result?.message || 'Unknown error'));
     }
   } catch (error) {
     console.error('Error saving trip:', error);
-    alert('Failed to save trip. Please try again.');
+    alert('Failed to save trip. Make sure the backend is running (cd backend && npm start).');
   }
 }
 

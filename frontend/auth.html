@@ -8,7 +8,7 @@
 <body>
   <nav>
     <div class="logo">
-      <img src="/assets/images/logo.jpeg" alt="Travel Planner Logo" class="nav-logo">
+      <img src="assets/images/logo.jpeg" alt="Travel Planner Logo" class="nav-logo">
       Travel Planner
     </div>
     <ul>
@@ -49,9 +49,8 @@
       </form>
     </div>
   </section>
+  <script src="api.js"></script>
   <script>
-    const API_BASE_URL = 'http://localhost:3000';
-
     function showAuthTab(tab) {
       document.getElementById('login-tab').classList.remove('active');
       document.getElementById('register-tab').classList.remove('active');
@@ -72,16 +71,12 @@
       const messageDiv = document.getElementById('login-message');
       
       try {
-        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        const { response, data } = await apiFetch('/auth/login', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })
         });
-        
-        const data = await response.json();
-        
+
         if (response.ok) {
           messageDiv.textContent = 'Login successful! Redirecting...';
           messageDiv.style.color = 'green';
@@ -96,7 +91,7 @@
           messageDiv.style.color = 'red';
         }
       } catch (error) {
-        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.textContent = 'Cannot reach server. Run: cd backend && npm start';
         messageDiv.style.color = 'red';
         console.error('Login error:', error);
       }
@@ -111,16 +106,12 @@
       const messageDiv = document.getElementById('register-message');
       
       try {
-        const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        const { response, data } = await apiFetch('/auth/register', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, email, password })
         });
-        
-        const data = await response.json();
-        
+
         if (response.ok) {
           messageDiv.textContent = 'Registration successful! You can now login.';
           messageDiv.style.color = 'green';
@@ -131,7 +122,7 @@
           messageDiv.style.color = 'red';
         }
       } catch (error) {
-        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.textContent = 'Cannot reach server. Run: cd backend && npm start';
         messageDiv.style.color = 'red';
         console.error('Registration error:', error);
       }

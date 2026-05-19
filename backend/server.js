@@ -8,7 +8,7 @@ const contactRouter = require('./routes/contact.js');
 const tripsRouter = require('./routes/trips.js');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());

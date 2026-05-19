@@ -1,19 +1,21 @@
 // My Trips JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-  loadTrips();
+  const user = requireLogin();
+  if (!user) return;
+
+  loadTrips(user);
   setupModalHandlers();
   setupEditForm();
 });
 
-// For demo purposes, use a default user ID (in real app, get from authentication)
-const DEMO_USER_ID = 'demo-user-123';
+async function loadTrips(userId) {
+  const user = userId || getCurrentUser();
+  if (!user) return;
 
-async function loadTrips() {
   try {
-    const response = await fetch(`/trips/user/${DEMO_USER_ID}`);
-    
+    const { response, data } = await apiFetch(`/trips/user/${encodeURIComponent(user)}`);
+
     if (response.ok) {
-      const data = await response.json();
       displayTrips(data.trips);
     } else {
       console.error('Failed to load trips');
@@ -118,10 +120,9 @@ function setupModalHandlers() {
 
 async function viewTripDetails(tripId) {
   try {
-    const response = await fetch(`/trips/${tripId}`);
-    
+    const { response, data } = await apiFetch(`/trips/${tripId}`);
+
     if (response.ok) {
-      const data = await response.json();
       const trip = data.trip;
       
       const modalContent = document.getElementById('modal-content');
@@ -175,10 +176,9 @@ async function viewTripDetails(tripId) {
 
 async function editTrip(tripId) {
   try {
-    const response = await fetch(`/trips/${tripId}`);
-    
+    const { response, data } = await apiFetch(`/trips/${tripId}`);
+
     if (response.ok) {
-      const data = await response.json();
       const trip = data.trip;
       
       // Populate edit form
@@ -216,21 +216,18 @@ function setupEditForm() {
     };
     
     try {
-      const response = await fetch(`/trips/${tripId}`, {
+      const { response, data } = await apiFetch(`/trips/${tripId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateData)
       });
-      
+
       if (response.ok) {
         alert('Trip updated successfully!');
         closeEditModal();
-        loadTrips(); // Reload trips
+        loadTrips();
       } else {
-        const error = await response.json();
-        alert('Failed to update trip: ' + error.error);
+        alert('Failed to update trip: ' + (data?.error || 'Unknown error'));
       }
     } catch (error) {
       console.error('Error updating trip:', error);
@@ -250,16 +247,15 @@ async function deleteTrip(tripId) {
   }
   
   try {
-    const response = await fetch(`/trips/${tripId}`, {
+    const { response, data } = await apiFetch(`/trips/${tripId}`, {
       method: 'DELETE'
     });
-    
+
     if (response.ok) {
       alert('Trip deleted successfully!');
-      loadTrips(); // Reload trips
+      loadTrips();
     } else {
-      const error = await response.json();
-      alert('Failed to delete trip: ' + error.error);
+      alert('Failed to delete trip: ' + (data?.error || 'Unknown error'));
     }
   } catch (error) {
     console.error('Error deleting trip:', error);
